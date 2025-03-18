@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.navbar {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.navbar ul {
+  display: flex;
+  gap: 50px;
+  list-style: none;
+}
+
+.navbar button {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: var(--font-colour);
+  transition: color 0.3s ease;
+}
+
+.navbar button:hover {
+  color: var(--quinary);
+}
+
+.language-switcher {
+  position: absolute;
+  right: 30px;
+  display: flex;
+  gap: 8px;
+}
+
+.lang-btn {
+  padding: 5px 10px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(45, 45, 45, 0.2);
+  border-radius: 4px;
+  color: var(--font-colour);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.lang-btn:hover {
+  background-color: rgba(131, 197, 190, 0.2);
+}
+
+.lang-btn.active {
+  background-color: var(--tertiary);
+  border-color: var(--tertiary);
+  color: var(--main);
+}

@@ -1,0 +1,134 @@
+html.no-scroll {
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+}
+
+.maintenance-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 0.5s ease;
+    overflow-y: auto;
+}
+
+.maintenance-content {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 30px;
+    text-align: center;
+    max-width: 500px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.maintenance-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    background: linear-gradient(45deg, var(--secondary, #006D77), var(--tertiary, #83C5BE));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.maintenance-content p {
+    font-size: 1.2rem;
+    color: #EDF6F9;
+    margin-bottom: 25px;
+}
+
+.construction-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    color: var(--secondary, #006D77);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.confirm-button {
+    margin-top: 20px;
+    padding: 12px 24px;
+    background: linear-gradient(45deg, var(--secondary, #006D77), var(--tertiary, #83C5BE));
+    border: none;
+    border-radius: 30px;
+    color: #EDF6F9;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.confirm-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+}
+
+
+.maintenance-language-switcher {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 15px 0;
+}
+
+.maintenance-language-switcher .lang-btn {
+    padding: 5px 10px;
+    background-color: rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(45, 45, 45, 0.2);
+    border-radius: 4px;
+    color: var(--font-colour);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.maintenance-language-switcher .lang-btn:hover {
+    background-color: rgba(131, 197, 190, 0.2);
+}
+
+.maintenance-language-switcher .lang-btn.active {
+    background-color: var(--tertiary);
+    border-color: var(--tertiary);
+    color: white;
+}
