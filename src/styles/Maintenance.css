@@ -116,7 +116,7 @@ html.no-scroll {
     background-color: rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(45, 45, 45, 0.2);
     border-radius: 4px;
-    color: var(--font-colour);
+    color: var(--main);
     font-size: 0.9rem;
     font-weight: 600;
     cursor: pointer;
@@ -130,5 +130,5 @@ html.no-scroll {
 .maintenance-language-switcher .lang-btn.active {
     background-color: var(--tertiary);
     border-color: var(--tertiary);
-    color: white;
+    color: var(--font-colour);
 }
