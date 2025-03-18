@@ -72,13 +72,13 @@ const Scene: React.FC<SceneProps> = ({ setCamera, setCameraGroup, currentSection
       // Update the light colors based on the sections
       if (light1Ref.current && light2Ref.current) {
         if (currentSection === 0) {
-          // gsap.to(light2Ref.current.color, {
-          //   r: debugObject.light1Color.r,
-          //   g: debugObject.light1Color.g,
-          //   b: debugObject.light1Color.b,
-          //   duration: 2,
-          //   ease: "power2.inOut"
-          // });
+          gsap.to(light1Ref.current.color, {
+            r: debugObject.light1Color.r,
+            g: debugObject.light1Color.g,
+            b: debugObject.light1Color.b,
+            duration: 2,
+            ease: "power2.inOut"
+          });
         } else if (currentSection === 1) {
           gsap.to(light1Ref.current.color, {
             r: debugObject.light2Color.r,
