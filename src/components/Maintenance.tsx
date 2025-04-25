@@ -12,7 +12,7 @@ const Maintenance: React.FC<MaintenanceProps> = ({
 }) => {
     const [isVisible, setIsVisible] = useState(true);
     const { t, i18n } = useTranslation();
-    
+
     // Disable the wheel event handler when overlay is shown
     useEffect(() => {
         if (isVisible) {
@@ -20,26 +20,26 @@ const Maintenance: React.FC<MaintenanceProps> = ({
                 e.preventDefault();
                 e.stopPropagation();
             };
-            
+
             window.addEventListener('wheel', preventScroll, { passive: false, capture: true });
-            
+
             return () => {
                 window.removeEventListener('wheel', preventScroll, { capture: true });
             };
         }
     }, [isVisible]);
-    
+
     const handleConfirm = () => {
         setIsVisible(false);
         if (onConfirm) onConfirm();
     };
-    
+
     const changeLanguage = (lng: string) => {
         i18n.changeLanguage(lng);
     };
-    
+
     if (!isVisible) return null;
-    
+
     return (
         <div className="maintenance-overlay">
             <div className="maintenance-content">
@@ -54,23 +54,23 @@ const Maintenance: React.FC<MaintenanceProps> = ({
                 </div>
                 <h2>{t('maintenance.title')}</h2>
                 <p>{t('maintenance.description')}</p>
-                
+
                 {/* Language Switcher */}
                 <div className="maintenance-language-switcher">
-                    <button 
+                    <button
                         className={`lang-btn ${i18n.language === 'en' ? 'active' : ''}`}
                         onClick={() => changeLanguage('en')}
                     >
                         EN
                     </button>
-                    <button 
+                    <button
                         className={`lang-btn ${i18n.language === 'fr' ? 'active' : ''}`}
                         onClick={() => changeLanguage('fr')}
                     >
                         FR
                     </button>
                 </div>
-                
+
                 <button className="confirm-button" onClick={handleConfirm}>
                     {t('maintenance.confirm')}
                 </button>

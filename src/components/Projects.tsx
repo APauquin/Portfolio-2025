@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import gsap from "gsap";
 import "../styles/Projects.css";
 import { useTranslation } from "react-i18next";
@@ -9,6 +10,7 @@ interface ProjectsProps {
 
 const Projects: React.FC<ProjectsProps> = ({ setIsTransitioning }) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const handleClick = () => {
     setIsTransitioning(true);
@@ -18,7 +20,10 @@ const Projects: React.FC<ProjectsProps> = ({ setIsTransitioning }) => {
       duration: 2,
       ease: "power2.inOut",
       onComplete: () => {
-        window.location.href = "/projects";
+        navigate("/projects");
+        setTimeout(() => {
+          setIsTransitioning(false);
+        }, 100);
       },
     });
   };

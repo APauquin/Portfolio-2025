@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../styles/Navbar.css";
 import { useTranslation } from "react-i18next";
 
@@ -11,16 +11,26 @@ interface NavbarProps {
 }
 
 const Navbar: React.FC<NavbarProps> = ({ sections, currentSection, handleScroll }) => {
-  const { i18n } = useTranslation();
-
+  const { t, i18n } = useTranslation();
+  
+  // On component mount, check for saved language preference
+  useEffect(() => {
+    const savedLanguage = localStorage.getItem('userLanguage');
+    if (savedLanguage && (savedLanguage === 'en' || savedLanguage === 'fr')) {
+      i18n.changeLanguage(savedLanguage);
+    }
+  }, [i18n]);
+  
   const changeLanguage = (lng: string) => {
+    // Save language preference to localStorage
+    localStorage.setItem('userLanguage', lng);
     i18n.changeLanguage(lng);
   };
-
+  
   return (
     <nav className="navbar">
       <ul>
-        {sections.map((title, index) => (
+        {sections.map((section, index) => (
           <li key={index}>
             <button
               onClick={() => handleScroll(undefined, index)}
@@ -28,7 +38,7 @@ const Navbar: React.FC<NavbarProps> = ({ sections, currentSection, handleScroll 
                 color: currentSection === index ? "var(--quinary)" : "var(--font-colour)",
               }}
             >
-              {title}
+              {t(`sections.${section.toLowerCase()}`, section)}
             </button>
           </li>
         ))}

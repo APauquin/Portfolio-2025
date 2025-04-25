@@ -1,0 +1,184 @@
+.project-col {
+  width: calc(33.333% - 2rem);
+  margin: 1rem;
+  cursor: pointer;
+  height: 320px;
+  perspective: 1000px;
+}
+
+.project-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.8s;
+}
+
+.project-front,
+.project-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.project-front {
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.project-front::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7));
+  z-index: 1;
+}
+
+.project-back {
+  background: linear-gradient(45deg, #2a5298 0%, #1e3c72 100%);
+  transform: rotateY(180deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  color: white;
+}
+
+.project-container:hover {
+  transform: rotateY(180deg);
+}
+
+.project-inner {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  width: 100%;
+  padding: 1.5rem;
+}
+
+.project-front .project-inner {
+  color: white;
+}
+
+.project-front .project-inner p {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  position: relative;
+  font-weight: 600;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.project-front .project-inner p::after {
+  content: '';
+  width: 4rem;
+  height: 2px;
+  position: absolute;
+  background: #fff;
+  display: block;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  bottom: -0.5rem;
+}
+
+.project-subtitle {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.9rem;
+  display: block;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.project-description {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  color: white;
+  text-align: center;
+}
+
+.project-techs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.project-tech-tag {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 0.2rem 0.5rem;
+  border-radius: 3px;
+  font-size: 0.75rem;
+  display: inline-block;
+}
+
+.project-back-links {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.project-link-btn {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.project-link-btn:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+.project-link-btn.live {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+.project-link-btn.live:hover {
+  background-color: rgba(255, 255, 255, 0.35);
+}
+
+/* Fix for touch devices */
+@media (hover: none) {
+  .project-col:active .project-container {
+    transform: rotateY(180deg);
+  }
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 1024px) {
+  .project-col {
+    width: calc(50% - 2rem);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .project-col {
+    width: calc(50% - 1.5rem);
+    margin: 0.75rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .project-col {
+    width: 100%;
+    margin: 0.75rem 0;
+    height: 280px;
+  }
+}

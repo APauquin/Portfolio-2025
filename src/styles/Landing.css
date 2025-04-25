@@ -9,7 +9,7 @@
   flex-direction: column;
   text-align: center;
 }
-  
+
 .floating-name span {
   display: block;
   font-size: inherit;
@@ -17,22 +17,21 @@
   position: relative;
   background: radial-gradient(
     circle 200px at var(--mouse-x) var(--mouse-y),
-    var(--quinary) 40%,
-    var(--font-colour) 100% 
+    var(--tertiary) 40%,
+    var(--font-colour) 100%
   );
   -webkit-background-clip: text;
   background-clip: text;
-  color: transparent; 
+  color: transparent;
   transition: background 0.1s ease-out;
 }
 
 .floating-name-container {
-  position: relative; 
+  position: relative;
   width: 100vw;
   height: 100vh;
 }
 
-.floating-name{
+.floating-name {
   transition: all 2s ease-in-out;
 }
-  

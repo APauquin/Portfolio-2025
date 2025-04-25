@@ -10,8 +10,9 @@ import Intro from "../components/Intro";
 import Scene from "../three/Scene";
 import Maintenance from "../components/Maintenance";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+import About from "../components/About";
 
-const sections = ["Intro", "Projects", "Contact"];
+const sections = ["Intro", "About", "Projects", "Contact"];
 gsap.registerPlugin(ScrollToPlugin);
 
 function Home() {
@@ -108,6 +109,10 @@ function Home() {
       <div ref={containerRef} className="sections-container">
         <section id="Intro" className="section">
           <Intro />
+        </section>
+
+        <section id="About" className="section">
+          <About />
         </section>
         
         <section id="Projects" className="section">
