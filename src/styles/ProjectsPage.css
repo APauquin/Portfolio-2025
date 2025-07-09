@@ -249,7 +249,6 @@
 /* For mobile devices */
 @media (max-width: 768px) {
     .navigation-controls {
-        flex-direction: column;
         gap: 1rem;
         align-items: flex-start;
     }

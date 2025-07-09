@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
@@ -15,9 +15,10 @@ type SceneProps = {
   setCameraGroup: (group: THREE.Group) => void;
   currentSection: number;
   isTransitioning?: boolean;
+  isMobile?: boolean;
 };
 
-const Scene: React.FC<SceneProps> = ({ setCamera, setCameraGroup, currentSection, isTransitioning = false }) => {
+const Scene: React.FC<SceneProps> = ({ setCamera, setCameraGroup, currentSection, isTransitioning = false, isMobile = false }) => {
   const mountRef = useRef<HTMLDivElement>(null);
   const guiRef = useRef<GUI | null>(null);
   const guiVisibleRef = useRef<boolean>(false);
@@ -33,29 +34,77 @@ const Scene: React.FC<SceneProps> = ({ setCamera, setCameraGroup, currentSection
   const ambientLightRef = useRef<THREE.AmbientLight | null>(null);
   const helicopterRef = useRef<THREE.Group | null>(null);
 
-  // /**
-  //  * gui appears when pressing 'u'
-  //  */
-  // if (guiRef.current) {
-  //   guiRef.current.destroy();
-  //   guiRef.current = null;
-  // }
-  // guiRef.current = new GUI({ width: 325 });
-  // guiRef.current.hide();
-  // const gui = guiRef.current;
-  // const handleKeyDown = (event: KeyboardEvent) => {
-  //   if (event.key === 'u') {
-  //     if (guiRef.current) {
-  //       if (guiVisibleRef.current) {
-  //         guiRef.current.hide();
-  //       } else {
-  //         guiRef.current.show();
-  //       }
-  //       guiVisibleRef.current = !guiVisibleRef.current;
-  //     }
-  //   }
-  // };
-  // window.addEventListener('keydown', handleKeyDown);
+  const meshRef = useRef<THREE.InstancedMesh | null>(null);
+  const planeRef = useRef<THREE.Mesh | null>(null);
+
+  const updateHelicopterPosition = (isMobileView: boolean) => {
+    if (!helicopterRef.current) return;
+
+    const targetX = isMobileView ? 0 : 0;
+    const targetY = isMobileView ? -objectsDistance * 1.27 : -12.5;
+
+    // Set position immediately
+    helicopterRef.current.position.x = targetX;
+    helicopterRef.current.position.y = targetY;
+
+    // Then animate for smooth transition
+    gsap.to(helicopterRef.current.position, {
+      x: targetX,
+      y: targetY,
+      duration: 1,
+      ease: "power2.inOut"
+    });
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'u') {
+        if (guiRef.current) {
+          if (guiVisibleRef.current) {
+            guiRef.current.hide();
+          } else {
+            guiRef.current.show();
+          }
+          guiVisibleRef.current = !guiVisibleRef.current;
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
+  const [internalIsMobile, setInternalIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      // Check viewport width first - this is more reliable for development testing
+      const viewportIsMobile = window.innerWidth <= 768;
+
+      // For development, prioritize viewport width
+      const isMobileDevice = viewportIsMobile;
+
+      // Combined with the prop passed down
+      const shouldBeMobile = isMobile || isMobileDevice;
+
+      // Update state
+      setInternalIsMobile(shouldBeMobile);
+    };
+
+    // Initial check
+    checkMobile();
+
+    // Update on resize
+    window.addEventListener('resize', checkMobile);
+
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
+  }, [isMobile]);
+
 
   /**
    * Debug Object
@@ -97,8 +146,7 @@ const Scene: React.FC<SceneProps> = ({ setCamera, setCameraGroup, currentSection
   useEffect(() => {
     if (cameraGroupRef.current) {
       const targetY = -currentSection * objectsDistance;
-      console.log("Current Section:", currentSection);
-      
+
       gsap.to(cameraGroupRef.current.position, {
         y: targetY,
         duration: 2,
@@ -284,6 +332,45 @@ const Scene: React.FC<SceneProps> = ({ setCamera, setCameraGroup, currentSection
   }, [currentSection, objectsDistance, debugObject.light1Color, debugObject.light2Color, debugObject.heliLightColor]);
 
   useEffect(() => {
+    // Update helicopter position for mobile
+    if (helicopterRef.current) {
+      const baseY = internalIsMobile ? -objectsDistance * 1.27 : -objectsDistance * 1.25;
+      const baseX = internalIsMobile ? 0 : 0; 
+
+      gsap.to(helicopterRef.current.position, {
+        y: baseY,
+        x: baseX,
+        duration: 1,
+        ease: "power2.inOut"
+      });
+    }
+
+    // Update BoxWave position for mobile
+    if (meshRef.current) {
+      const baseY = -objectsDistance * 2;
+      const targetY = internalIsMobile ? baseY - objectsDistance : baseY;
+
+      gsap.to(meshRef.current.position, {
+        y: targetY,
+        duration: 1,
+        ease: "power2.inOut"
+      });
+    }
+
+    // Update animated plane position for mobile
+    if (planeRef.current) {
+      const baseY = -objectsDistance * 3;
+      const targetY = internalIsMobile ? baseY - objectsDistance : baseY;
+
+      gsap.to(planeRef.current.position, {
+        y: targetY,
+        duration: 1,
+        ease: "power2.inOut"
+      });
+    }
+  }, [internalIsMobile, objectsDistance]);
+
+  useEffect(() => {
     if (isTransitioning && cameraGroupRef.current) {
       gsap.to(cameraGroupRef.current.position, {
         x: "20",
@@ -293,6 +380,29 @@ const Scene: React.FC<SceneProps> = ({ setCamera, setCameraGroup, currentSection
     }
   }, [isTransitioning]);
 
+  /**
+ * set helicopter position based on mobile state
+ */
+  useEffect(() => {
+    // This useEffect will run ONLY when internalIsMobile changes
+    if (helicopterRef.current) {
+      const targetX = internalIsMobile ? 0 : 0;
+      const targetY = internalIsMobile ? -objectsDistance * 1.27 : -12.5;
+
+      // Force immediate position update first
+      helicopterRef.current.position.x = targetX;
+      helicopterRef.current.position.y = targetY;
+
+      // Then animate to ensure smooth transition
+      gsap.to(helicopterRef.current.position, {
+        x: targetX,
+        y: targetY,
+        duration: 1,
+        ease: "power2.inOut"
+      });
+    }
+  }, [internalIsMobile, objectsDistance]);
+
   useEffect(() => {
     if (!mountRef.current) return;
 
@@ -301,7 +411,11 @@ const Scene: React.FC<SceneProps> = ({ setCamera, setCameraGroup, currentSection
     }
 
     guiRef.current = new GUI({ width: 325 });
+    guiRef.current.hide(); // Make sure it starts hidden
+    guiVisibleRef.current = false;
+
     const gui = guiRef.current;
+
 
     const sizes = {
       width: window.innerWidth,
@@ -379,11 +493,11 @@ const Scene: React.FC<SceneProps> = ({ setCamera, setCameraGroup, currentSection
      * Mesh
      */
     const backgroundColourPlane = new THREE.Mesh(
-      new THREE.PlaneGeometry(100, 50),
+      new THREE.PlaneGeometry(100, 60),
       new THREE.MeshBasicMaterial({ color: debugObject.colorA })
     );
     backgroundColourPlane.position.z = camera.position.z - 20;
-    backgroundColourPlane.position.y = camera.position.y - 15;
+    backgroundColourPlane.position.y = camera.position.y - 20;
     scene.add(backgroundColourPlane);
 
     const organicBallGeometry = new THREE.IcosahedronGeometry(2.5, 100);
@@ -415,8 +529,12 @@ const Scene: React.FC<SceneProps> = ({ setCamera, setCameraGroup, currentSection
     scene.add(pill);
 
     const plane = new THREE.Mesh(animatedPlaneGeometry, planeMaterial);
+    planeRef.current = plane;
+
     plane.position.z = 0;
-    plane.position.y = - objectsDistance * 3
+    const planeY = internalIsMobile ? -objectsDistance * 4 : -objectsDistance * 3;
+    plane.position.y = planeY;
+
 
     scene.add(plane);
     const colors = [];
@@ -469,6 +587,7 @@ const Scene: React.FC<SceneProps> = ({ setCamera, setCameraGroup, currentSection
     const radius = gridSize * 1;
     const maxPossibleBoxes = Math.ceil(Math.PI * Math.pow(radius, 2));
     const mesh = new THREE.InstancedMesh(boxGeometry, boxMaterial, maxPossibleBoxes);
+    meshRef.current = mesh;
     mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
     mesh.castShadow = true;
     mesh.receiveShadow = true;
@@ -516,7 +635,8 @@ const Scene: React.FC<SceneProps> = ({ setCamera, setCameraGroup, currentSection
       );
     };
 
-    mesh.position.set(0, -objectsDistance * 2, 0);
+    const meshY = internalIsMobile ? -objectsDistance * 3 : -objectsDistance * 2;
+    mesh.position.set(0, meshY, 0);
     mesh.rotation.x = Math.PI / 6;
     scene.add(mesh);
 
@@ -601,7 +721,7 @@ const Scene: React.FC<SceneProps> = ({ setCamera, setCameraGroup, currentSection
     /**
      * Heli with Light 
      */
-    const heliLight = new THREE.DirectionalLight(debugObject.heliLightColor, 0);``
+    const heliLight = new THREE.DirectionalLight(debugObject.heliLightColor, 0); ``
     heliLight.position.set(0, objectsDistance * 2, 10);
     heliLight.castShadow = true;
 
@@ -633,20 +753,27 @@ const Scene: React.FC<SceneProps> = ({ setCamera, setCameraGroup, currentSection
       (gltf) => {
         helicopter = gltf.scene;
         helicopterRef.current = helicopter;
+        const viewportIsMobile = window.innerWidth <= 768;
 
-        helicopter.scale.set(0.5, 0.5, 0.5);
-        helicopter.position.set(0, -objectsDistance * 1.25, 5);
+        const scale = viewportIsMobile ? 0.35 : 0.5;
+        helicopter.scale.set(scale, scale, scale);
+
+        // Use the current value of internalIsMobile at the time the model loads
+        const currentMobile = window.innerWidth <= 768 || internalIsMobile;
+        const heliY = currentMobile ? -objectsDistance * 1.27 : -12.5;
+        const heliX = currentMobile ? 0 : 0;
+
+        helicopter.position.set(heliX, heliY, 5);
         helicopter.rotation.y = Math.PI * 0.25;
 
-        // Add shadows
-        helicopter.traverse((child) => {
-          if (child instanceof THREE.Mesh) {
-            child.castShadow = true;
-            child.receiveShadow = true;
-          }
-        });
-
-        scene.add(helicopter);
+        // Store the initial settings for reference
+        helicopter.userData = {
+          ...helicopter.userData,
+          mobileX: 0,
+          mobileY: -objectsDistance * 1.27,
+          desktopX: 0,
+          desktopY: -12.5
+        };
 
         // Set up helicopter animations
         if (gltf.animations && gltf.animations.length > 0) {
@@ -668,9 +795,19 @@ const Scene: React.FC<SceneProps> = ({ setCamera, setCameraGroup, currentSection
             helicopter!.scale.set(value, value, value);
           });
         }
-      },
-      (error) => {
-        console.error('Error loading helicopter:', error);
+
+        // Add shadows
+        helicopter.traverse((child) => {
+          if (child instanceof THREE.Mesh) {
+            child.castShadow = true;
+            child.receiveShadow = true;
+          }
+        });
+
+        scene.add(helicopter);
+
+        // Immediately apply correct position after loading
+        updateHelicopterPosition(currentMobile);
       }
     );
 
@@ -745,18 +882,30 @@ const Scene: React.FC<SceneProps> = ({ setCamera, setCameraGroup, currentSection
      * Mouse Move for wobble distortion
      */
     const cursor = { x: 0, y: 0 };
-    window.addEventListener("mousemove", (event: MouseEvent) => {
-      cursor.x = ((event.clientX / sizes.width) - 0.5) * 2;
-      cursor.y = -((event.clientY / sizes.height) - 0.5) * 2;
-
-      uniforms.uStrength.value = 0.3 + cursor.y * 0.2;
-      uniforms.uPositionFrequency.value = 0.5 + cursor.x * 0.2;
-    });
-    const handleMouseMove = (event: MouseEvent) => {
-      cursor.x = (event.clientX / sizes.width - 0.5) * 2;
-      cursor.y = -(event.clientY / sizes.height - 0.5) * 2;
+    const isMobileDevice = () => {
+      return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+        window.innerWidth <= 768;
     };
-    window.addEventListener("mousemove", handleMouseMove);
+
+    // Only add mouse events on desktop devices
+    if (!isMobileDevice()) {
+      window.addEventListener("mousemove", (event: MouseEvent) => {
+        cursor.x = ((event.clientX / sizes.width) - 0.5) * 2;
+        cursor.y = -((event.clientY / sizes.height) - 0.5) * 2;
+
+        uniforms.uStrength.value = 0.3 + cursor.y * 0.2;
+        uniforms.uPositionFrequency.value = 0.5 + cursor.x * 0.2;
+      });
+
+      const handleMouseMove = (event: MouseEvent) => {
+        cursor.x = (event.clientX / sizes.width - 0.5) * 2;
+        cursor.y = -(event.clientY / sizes.height - 0.5) * 2;
+      };
+      window.addEventListener("mousemove", handleMouseMove);
+    } else {
+      uniforms.uStrength.value = 0.3;
+      uniforms.uPositionFrequency.value = 0.5;
+    }
 
     /**
      * Animation Loop
@@ -790,9 +939,21 @@ const Scene: React.FC<SceneProps> = ({ setCamera, setCameraGroup, currentSection
         heliAnim.update(animDelta);
       }
 
-      if (helicopter) {
-        const bobAmount = Math.sin(elapsedTime * 0.5) * 0.1;
-        helicopter.position.y = -objectsDistance * 1.25 + bobAmount;
+
+      if (helicopterRef.current) {
+        // Simple viewport check that will work in development
+        const viewportIsMobile = window.innerWidth <= 768;
+
+        // Choose base position based on viewport width
+        const baseY = viewportIsMobile ? -objectsDistance * 1.27 : -12.5;
+        const targetX = viewportIsMobile ? 0 : 0;
+
+        // Apply position for X
+        helicopterRef.current.position.x = targetX;
+
+        // Apply bobbing for both mobile and desktop modes
+        const bobAmount = Math.sin(elapsedTime * 1.5) * 0.2;
+        helicopterRef.current.position.y = baseY + bobAmount;
       }
 
       renderer.render(scene, camera);
@@ -815,7 +976,11 @@ const Scene: React.FC<SceneProps> = ({ setCamera, setCameraGroup, currentSection
         mountRef.current.removeChild(renderer.domElement);
       }
       window.removeEventListener("resize", handleResize);
-      // window.removeEventListener('keydown', handleKeyDown);
+
+      if (guiRef.current) {
+        guiRef.current.destroy();
+        guiRef.current = null;
+      }
     };
   }, []);
 

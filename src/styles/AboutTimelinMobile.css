@@ -1,0 +1,158 @@
+/* Mobile Timeline Styles */
+.about-timeline-section {
+  width: 100%;
+  height: 100vh;
+  padding: 0 1rem;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-timeline-section {
+  display: none;
+  height: 100%;
+  width: 100%;
+}
+
+.mobile-timeline {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+/* Left side timeline alignment */
+.mobile-timeline-line {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 2px;
+  background: var(--quinary);
+}
+
+.mobile-timeline-item {
+  position: relative;
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+  width: calc(100% - 1.5rem);
+}
+
+/* Position dot on left side */
+.mobile-timeline-dot {
+  position: absolute;
+  left: -9px;
+  top: 1.5rem;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--quinary);
+  z-index: 2;
+}
+
+/* Left-aligned content box */
+.mobile-timeline-content {
+  background: var(--font-colour);
+  padding: 1.2rem;
+  border-radius: 5px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid var(--quinary);
+  transition: transform 0.3s ease;
+  width: 100%;
+}
+
+.mobile-timeline-content:hover {
+  transform: translateY(-5px);
+}
+
+/* Left-aligned text */
+.mobile-timeline-content h3 {
+  margin: 0;
+  color: var(--quinary);
+  font-size: 1.2rem;
+  text-align: left;
+}
+
+.mobile-timeline-content h4 {
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+  color: var(--main);
+  text-align: left;
+}
+
+.mobile-timeline-content p {
+  margin: 0.5rem 0 0;
+  font-style: italic;
+  color: var(--tertiary);
+  font-size: 1rem;
+  text-align: left;
+}
+
+/* Show mobile timeline only on mobile devices */
+@media (max-width: 768px) {
+  .timeline-section {
+    display: none !important;
+  }
+  
+  .mobile-timeline-section {
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    margin-top: 30%;
+    margin-bottom: 10%;
+  }
+  
+  .about-timeline-section {
+    padding: 0 1rem;
+    overflow: hidden;
+  }
+  
+  .mobile-timeline {
+    height: 100%;
+    justify-content: space-evenly;
+  }
+  
+  .mobile-timeline-content {
+    padding: 1rem;
+    width: 100%;
+    max-width: 90%;
+  }
+  
+  .mobile-timeline-content h3 {
+    font-size: 1rem;
+  }
+  
+  .mobile-timeline-content h4 {
+    font-size: 0.9rem;
+  }
+  
+  .mobile-timeline-content p {
+    font-size: 0.85rem;
+  }
+}
+
+/* Animation for mobile timeline items */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.mobile-timeline-item {
+  opacity: 0;
+}
+
+.mobile-timeline-item.animated {
+  animation: slideInLeft 0.5s ease forwards;
+}

@@ -1,11 +1,134 @@
+/* Base styles for both desktop and mobile */
+.projects-container {
+  height: 100vh !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 20px;
+}
+
 .projects-text {
   font-weight: bold;
   cursor: pointer;
   display: inline-block;
   color: var(--font-colour);
   transition: color 0.5s ease-in-out, transform 1s ease-in-out;
+  margin-top: 20px;
+  max-width: 600px;
 }
 
 .projects-text:hover {
   transform: scale(1.15);
+}
+
+/* Mobile styles */
+@media screen and (max-width: 768px) {
+  .projects-container {
+    padding: 0 15px;
+  }
+
+  .projects-container h1 {
+    /* font-size: 2rem; */
+    margin-bottom: 15px;
+  }
+
+  .projects-text {
+    /* font-size: 1rem; */
+    line-height: 1.4;
+    margin-top: 15px;
+  }
+
+  /* Adjust the hover effect for touch devices */
+  .projects-text:active {
+    transform: scale(1.1);
+  }
+}
+
+/* Project list styles for the actual projects page */
+.projects-list-container {
+  padding: 80px 20px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.project-card {
+  margin-bottom: 40px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.project-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.project-info {
+  padding: 20px;
+  background-color: var(--main);
+}
+
+.project-title {
+  /* font-size: 1.5rem; */
+  margin-bottom: 10px;
+  color: var(--font-colour);
+}
+
+.project-description {
+  color: var(--font-colour);
+  margin-bottom: 15px;
+  line-height: 1.5;
+}
+
+.project-links {
+  display: flex;
+  gap: 15px;
+}
+
+.project-link {
+  display: inline-block;
+  padding: 8px 15px;
+  background-color: var(--secondary);
+  color: var(--main);
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.project-link:hover {
+  background-color: var(--tertiary);
+}
+
+/* Mobile styles for project list */
+@media screen and (max-width: 768px) {
+  .projects-list-container {
+    padding: 70px 15px 30px;
+  }
+
+  .project-card {
+    margin-bottom: 30px;
+  }
+
+  .project-title {
+    /* font-size: 1.3rem; */
+  }
+
+  .project-links {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .project-link {
+    text-align: center;
+  }
 }

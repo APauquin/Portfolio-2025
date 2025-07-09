@@ -8,6 +8,7 @@ const enTranslations = {
   sections: {
     "intro": "Intro",
     "about": "About",
+    "timeLine": "TimeLine",
     "projects": "Projects",
     "contact": "Contact"
   },
@@ -28,7 +29,6 @@ const enTranslations = {
     descriptions: {
       1: "A personal portfolio website built with React, ThreeJS and TypeScript to showcase my projects and skills.",
       2: "An accurate reconstruction of the ec665 Tiger I used to work on during my career in the army for use in my portfolio.",
-      3: "A full-stack travel helper with user management, administration capability, a search function and a map interface.",
       4: "ThreeJS project of a wave simulation with cubes using sine functions.",
       5: "ThreeJS sphere I created during my studies of ThreeJS following the lessons in a Bruno Simon course.",
       6: "A mobile-friendly web application for tracking CO2 emissions and promoting eco-friendly habits.",
@@ -36,8 +36,7 @@ const enTranslations = {
     },
     longDescriptions: {
       1: "This modern, responsive portfolio website was built using React and TypeScript with GSAP animations. The site features smooth page transitions, responsive design for all devices, and internationalization support. The project structure uses a component-based architecture for maintainability and scalability. It includes sections for showcasing projects, skills, and contact information in an engaging and interactive way.",
-      2: "This project showcases my 3D modeling and animation skills Blender. I used a model i found here but lacked animations and proper dimensions and optimization. I implemented custom textures and shading, updated the cannon and the general dimensions to be more realistic.",
-      3: "CityZen is a project developed following my studies at wildcodeschool to deepen my knowledge in web development. It is a web application that allows users to discover points of interest in a city, rate them, and comment on them. The frontend is built with Next.js for a smooth and responsive user interface. The backend uses Node.js combined with GraphQL, TypeORM and ApolloServer. Features include user authentication, product search and filtering, shopping cart functionality, secure checkout with Stripe integration, order history, and an admin dashboard for product management.",
+      2: "This project showcases my 3D modeling and animation skills Blender. I used a model i found here: https://sketchfab.com/3d-models/eurocopter-ec665-tigre-81ab6a12ef9d4e1ba070f51c57a3fb6e, yet I noticed it lacked animations and proper dimensions and reduced the poly count drastically for optimization purposes. I implemented custom textures and shading, updated the cannon and the general dimensions to be more realistic.",
       4: "Cube Wave is a ThreeJS project that simulates a wave effect using cubes. The project utilizes sine functions to create a wave pattern that flows across the screen. The cubes are animated to move in sync with the wave, creating a dynamic effect.",
       5: "An animated sphere that showcases a sphere with a varying surface. The project demonstrates the use of shaders and lighting effects to create a realistic appearance. The sphere is animated to have waves on the surface and change colors.",
       6: "CO2Less is a mobile-friendly web application designed to help users track their CO2 emissions and promote eco-friendly habits. The app allows users to log their daily activities, such as transportation, energy consumption, and waste generation. It provides visualizations of their carbon footprint over time and offers tips for reducing emissions. The application was built to obtain my diploma after my studies.",
@@ -52,7 +51,6 @@ const enTranslations = {
     },
     projectTitles: {
       'Portfolio Website': 'Portfolio Website',
-      'CityZen': 'CityZen',
       'Cube Wave': 'Cube Wave',
       'Organic Sphere': 'Organic Sphere',
       'C02Less': 'CO2Less',
@@ -97,7 +95,28 @@ const enTranslations = {
   },
   contact: {
     title: 'Contact',
-    reachOut: 'Feel free to reach out!'
+    nameLabel: 'Your Name',
+    namePlaceholder: 'Enter your full name',
+    companyLabel: 'Company Name',
+    companyPlaceholder: 'Enter your company name',
+    emailLabel: 'Email',
+    emailPlaceholder: 'Enter your email address',
+    phoneLabel: 'Phone Number',
+    phonePlaceholder: 'Enter your phone number',
+    contactMethodHelper: 'Either email or phone number is required',
+    selectMessageLabel: 'Select a Message',
+    selectMessagePlaceholder: '-- Select a pre-made message --',
+    messageLabel: 'Your Message',
+    messagePlaceholder: 'Enter your message or select a pre-made message above',
+    captchaLabel: 'Human Verification',
+    preset1: 'I would like to schedule a call.',
+    preset2: 'Please contact me via email.',
+    errorMissingName: 'Please enter your name.',
+    errorContactMethod: 'Please provide either an email address or phone number.',
+    errorCaptcha: 'Please verify that you are human by completing the CAPTCHA.',
+    successMessage: 'Your message has been sent! I\'ll get back to you soon.',
+    submitting: 'Sending...',
+    submit: 'Send Message'
   },
   loading: {
     title: 'Loading',
@@ -119,10 +138,15 @@ const enTranslations = {
     paragraph3: 'My apprenticeship at Nuprod was decisive in my evolution, allowing me to consolidate my skills and work on various projects.',
     paragraph4: 'What characterizes me? Autonomy, adaptability, and strong motivation. I am passionate about technical challenges and always ready to explore new technologies to create innovative solutions.',
     paragraph5: 'Today, as an Application Developer, I continue to evolve and improve in an agile environment where each project is a new learning opportunity.',
+    mobile: {
+      paragraph1: 'From aeronautical technician in the French Army to web development, my journey is built on discipline and passion for technology. After military service, I pursued my tech dream at Wild Code School.',
+      paragraph2: 'My apprenticeship at Nuprod strengthened my skills through diverse projects. Autonomy, adaptability, and continuous learning define my approach to work.',
+      paragraph3: 'Today, I develop applications in agile environments, exploring new technologies for innovative solutions while seeking growth opportunities.'
+    },
     timeline: {
       job1: {
-        title: 'Specialized Aeronautical Technician in Cell and Engine',
-        company: 'Army Light Aviation (ALAT)'
+        title: 'Aeronautical Technician Specialized in Airframe and Engine',
+        company: 'French Army Light Aviation (ALAT)'
       },
       job2: {
         title: 'Full Stack PHP Web Developer Training',
@@ -138,7 +162,7 @@ const enTranslations = {
         company: 'Passionate and always looking for new challenges'
       }
     }
-  }
+  },
 };
 
 // French translations
@@ -147,6 +171,7 @@ const frTranslations = {
   sections: {
     "intro": "Intro",
     "about": "À propos",
+    "timeLine": "Chronologie",
     "projects": "Projets",
     "contact": "Contact"
   },
@@ -167,7 +192,6 @@ const frTranslations = {
     descriptions: {
       1: "Un site portfolio personnel construit avec React, ThreeJS et TypeScript pour présenter mes projets et compétences.",
       2: "Une reconstruction précise du Tiger ec665 sur lequel j'ai travaillé pendant ma carrière dans l'armée, pour utilisation dans mon portfolio.",
-      3: "Un assistant de voyage full-stack avec gestion des utilisateurs, capacité d'administration, fonction de recherche et interface cartographique.",
       4: "Projet ThreeJS d'une simulation d'onde avec des cubes utilisant des fonctions sinus.",
       5: "Sphère ThreeJS que j'ai créée pendant mes études de ThreeJS en suivant les leçons d'un cours de Bruno Simon.",
       6: "Une application web adaptée aux mobiles pour suivre les émissions de CO2 et promouvoir des habitudes écologiques.",
@@ -175,8 +199,7 @@ const frTranslations = {
     },
     longDescriptions: {
       1: "Ce site portfolio moderne et réactif a été construit avec React et TypeScript, avec des animations GSAP. Le site propose des transitions de page fluides, un design responsive pour tous les appareils et une prise en charge de l'internationalisation. La structure du projet utilise une architecture basée sur des composants pour la maintenabilité et l'évolutivité. Il comprend des sections pour présenter des projets, des compétences et des informations de contact de manière engageante et interactive.",
-      2: "Ce projet met en valeur mes compétences en modélisation et animation 3D avec Blender. J'ai utilisé un modèle que j'ai trouvé, mais qui manquait d'animations et de dimensions et d'optimisation appropriées. J'ai implémenté des textures et des ombrages personnalisés, mis à jour le canon et les dimensions générales pour être plus réalistes.",
-      3: "CityZen est un projet développé suite à mes études à wildcodeschool pour approfondir mes connaissances en développement web. C'est une application web qui permet aux utilisateurs de découvrir des points d'intérêt dans une ville, de les évaluer et de les commenter. Le frontend est construit avec Next.js pour une interface utilisateur fluide et responsive. Le backend utilise Node.js combiné avec GraphQL, TypeORM et ApolloServer. Les fonctionnalités comprennent l'authentification des utilisateurs, la recherche et le filtrage des produits, la fonctionnalité de panier d'achat, le paiement sécurisé avec intégration Stripe, l'historique des commandes et un tableau de bord administrateur pour la gestion des produits.",
+      2: "Ce projet met en valeur mes compétences en modélisation et animation 3D avec Blender. J'ai utilisé un modèle que j'ai trouvé ici: https://sketchfab.com/3d-models/eurocopter-ec665-tigre-81ab6a12ef9d4e1ba070f51c57a3fb6e, mais qui manquait d'animations et de dimensions et d'optimisation appropriées. J'ai implémenté des textures et des ombrages personnalisés, mis à jour le canon et les dimensions générales pour être plus réalistes.",
       4: "Cube Wave est un projet ThreeJS qui simule un effet d'onde en utilisant des cubes. Le projet utilise des fonctions sinus pour créer un motif d'onde qui s'écoule à travers l'écran. Les cubes sont animés pour se déplacer en synchronisation avec l'onde, créant un effet dynamique.",
       5: "Une sphère animée qui présente une surface variable. Le projet démontre l'utilisation de shaders et d'effets d'éclairage pour créer un aspect réaliste. La sphère est animée pour avoir des vagues à sa surface et changer de couleurs.",
       6: "CO2Less est une application web adaptée aux mobiles conçue pour aider les utilisateurs à suivre leurs émissions de CO2 et promouvoir des habitudes écologiques. L'application permet aux utilisateurs de consigner leurs activités quotidiennes, comme les transports, la consommation d'énergie et la production de déchets. Elle fournit des visualisations de leur empreinte carbone au fil du temps et offre des conseils pour réduire les émissions. L'application a été construite pour obtenir mon diplôme après mes études.",
@@ -191,7 +214,6 @@ const frTranslations = {
     },
     projectTitles: {
       'Portfolio Website': 'Site Portfolio',
-      'CityZen': 'CityZen',
       'Cube Wave': 'Cube Wave',
       'Organic Sphere': 'Sphère Organique',
       'C02Less': 'CO2Less',
@@ -236,7 +258,28 @@ const frTranslations = {
   },
   contact: {
     title: 'Contact',
-    reachOut: 'N\'hésitez pas à me contacter !'
+    nameLabel: 'Votre Nom',
+    namePlaceholder: 'Entrez votre nom complet',
+    companyLabel: 'Nom de l\'Entreprise',
+    companyPlaceholder: 'Entrez le nom de votre entreprise',
+    emailLabel: 'Email',
+    emailPlaceholder: 'Entrez votre adresse email',
+    phoneLabel: 'Numéro de Téléphone',
+    phonePlaceholder: 'Entrez votre numéro de téléphone',
+    contactMethodHelper: 'L\'email ou le numéro de téléphone est requis',
+    selectMessageLabel: 'Sélectionnez un Message',
+    selectMessagePlaceholder: '-- Sélectionnez un message prédéfini --',
+    messageLabel: 'Votre Message',
+    messagePlaceholder: 'Entrez votre message ou sélectionnez un message prédéfini ci-dessus',
+    captchaLabel: 'Vérification Humaine',
+    preset1: 'Je souhaiterais planifier un appel.',
+    preset2: 'Veuillez me contacter par email.',
+    errorMissingName: 'Veuillez entrer votre nom.',
+    errorContactMethod: 'Veuillez fournir une adresse email ou un numéro de téléphone.',
+    errorCaptcha: 'Veuillez vérifier que vous êtes humain en complétant le CAPTCHA.',
+    successMessage: 'Votre message a été envoyé ! Je vous répondrai bientôt.',
+    submitting: 'Envoi en cours...',
+    submit: 'Envoyer le Message'
   },
   loading: {
     title: 'Chargement',
@@ -258,6 +301,11 @@ const frTranslations = {
     paragraph3: 'Mon alternance chez Nuprod a été déterminante dans mon évolution, me permettant de consolider mes compétences et de travailler sur des projets variés.',
     paragraph4: 'Ce qui me caractérise ? Autonomie, adaptabilité et une forte motivation. Je suis passionné par les défis techniques et toujours prêt à explorer de nouvelles technologies pour créer des solutions innovantes.',
     paragraph5: 'Aujourd\'hui, en tant que Concepteur Développeur d\'Applications, je continue à évoluer et à me perfectionner dans un environnement agile où chaque projet est une nouvelle opportunité d\'apprentissage.',
+    mobile: {
+      paragraph1: 'De technicien aéronautique dans l\'Armée française au développement web, mon parcours est fondé sur la discipline et la passion pour la technologie. Après mon service militaire, j\'ai poursuivi mon rêve tech à la Wild Code School.',
+      paragraph2: 'Mon alternance chez Nuprod a renforcé mes compétences à travers des projets variés. L\'autonomie, l\'adaptabilité et l\'apprentissage continu définissent mon approche du travail.',
+      paragraph3: 'Aujourd\'hui, je développe des applications dans des environnements agiles, explorant de nouvelles technologies pour des solutions innovantes tout en cherchant à évoluer.'
+    },
     timeline: {
       job1: {
         title: 'Technicien aéronautique spécialisé cellule et moteur',

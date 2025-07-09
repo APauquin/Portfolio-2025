@@ -1,7 +1,12 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import "../styles/About.css";
 import { useTranslation } from "react-i18next";
+
+import pic1 from '../assets/pic1.jpg';
+import pic2 from '../assets/pic2.jpg';
+import pic3 from '../assets/pic3.jpg';
+import pic4 from '../assets/pic4.jpg';
 
 const About: React.FC = () => {
   const { t } = useTranslation();
@@ -10,6 +15,24 @@ const About: React.FC = () => {
   const contentRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
   const timelineInstance = useRef<gsap.core.Timeline | null>(null);
+  const picturesRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+
+  // Check if device is mobile
+  useEffect(() => {
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    // Initial check
+    checkIsMobile();
+    
+    // Add resize listener
+    window.addEventListener('resize', checkIsMobile);
+    
+    // Clean up
+    return () => window.removeEventListener('resize', checkIsMobile);
+  }, []);
 
   useEffect(() => {
     // Create the timeline but don't play it yet
@@ -41,6 +64,17 @@ const About: React.FC = () => {
         timelineItems,
         { x: -50, opacity: 0 },
         { x: 0, opacity: 1, duration: 0.5, stagger: 0.2 },
+        "-=0.5"
+      );
+    }
+
+    // Add animation for the pictures grid
+    if (picturesRef.current) {
+      const pictureItems = picturesRef.current.querySelectorAll(".picture-item");
+      tl.fromTo(
+        pictureItems,
+        { y: 50, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.5, stagger: 0.15 },
         "-=0.5"
       );
     }
@@ -83,16 +117,43 @@ const About: React.FC = () => {
         
         <div ref={contentRef} className="about-content">
           <div className="about-text">
-            <p>{t('about.paragraph1')}</p>
-            <p>{t('about.paragraph2')}</p>
-            <p>{t('about.paragraph3')}</p>
-            <p>{t('about.paragraph4')}</p>
-            <p>{t('about.paragraph5')}</p>
+            {isMobile ? (
+              // Mobile version - only 3 paragraphs
+              <>
+                <p>{t('about.mobile.paragraph1')}</p>
+                <p>{t('about.mobile.paragraph2')}</p>
+                <p>{t('about.mobile.paragraph3')}</p>
+              </>
+            ) : (
+              <>
+                <p>{t('about.paragraph1')}</p>
+                <p>{t('about.paragraph2')}</p>
+                <p>{t('about.paragraph3')}</p>
+                <p>{t('about.paragraph4')}</p>
+                <p>{t('about.paragraph5')}</p>
+              </>
+            )}
+          </div>
+        </div>
+
+        {/* Grid of 4 pictures in bottom left */}
+        <div ref={picturesRef} className="pictures-grid">
+          <div className="picture-item">
+            <img src={pic1} alt="Career moment 1" />
+          </div>
+          <div className="picture-item">
+            <img src={pic4} alt="Career moment 2" />
+          </div>
+          <div className="picture-item">
+            <img src={pic2} alt="Career moment 3" />
+          </div>
+          <div className="picture-item">
+            <img src={pic3} alt="Career moment 4" />
           </div>
         </div>
       </div>
       
-      <div className="timeline-section">
+      <div className="timeline-section desktop">
         <div ref={timelineRef} className="timeline">
           <div className="timeline-line"></div>
           

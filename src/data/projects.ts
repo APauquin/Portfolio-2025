@@ -12,12 +12,10 @@ export interface Project {
     date?: string;
 }
 
-import placeholderImage from '../assets/placeholder-image.webp';
 import originsDigitalImage from '../assets/origins-digital.png';
 import c02LessImage from '../assets/c02less.png';
 import organicSphere from '../assets/organic-sphere.png';
 import boxWave from '../assets/box-wave.png';
-import cityZenImage from '../assets/cityzen.png';
 import tiger3DModelImage from '../assets/tiger-3d-model.png';
 import portfolioImage from '../assets/portfolio.png';
 
@@ -33,7 +31,8 @@ const projects: Project[] = [
             "It includes sections for showcasing projects, skills, and contact information in an engaging and interactive way.",
         technologies: ["React", "TypeScript", "GSAP", "i18next", "CSS", "Responsive Design", "ThreeJS"],
         imageUrl: portfolioImage,
-        githubUrl: "https://github.com/yourusername/portfolio-2025",
+        githubUrl: "https://github.com/APauquin/portfolio-2025",
+        liveUrl: "alexandrepauquin.com",
         featured: true,
         category: "Web Development",
         date: "2025"
@@ -53,24 +52,6 @@ const projects: Project[] = [
         date: "2025"
     },
     {
-        id: 3,
-        title: "CityZen",
-        description: "A full-stack travel helper with user management, administration capability, a search function and a map interface.",
-        longDescription:
-            "CityZen is a project developed following my studies at wildcodeschool to deepen my knowledge in web development." +
-            "It is a web application that allows users to discover points of interest in a city, rate them, and comment on them." +
-            "The frontend is built with Next.js for a smooth and responsive user interface, " +
-            "The backend uses Node.js combined with GraphQL, TypeORM and ApolloServer. " +
-            "Features include user authentication, product search and filtering, shopping cart functionality, " +
-            "secure checkout with Stripe integration, order history, and an admin dashboard for product management.",
-        technologies: ["React", "Node.js", "GraphQL", "TypeORM", "ApolloServer"],
-        imageUrl: cityZenImage,
-        githubUrl: "https://github.com/yourusername/ecommerce-platform",
-        featured: true,
-        category: "Web Development",
-        date: "2025"
-    },
-    {
         id: 4,
         title: "Cube Wave",
         description: "ThreeJS project of a wave simulation with cubes using sine functions.",
@@ -80,8 +61,7 @@ const projects: Project[] = [
             "The cubes are animated to move in sync with the wave, creating a dynamic effect. ",
         technologies: ["React", "ThreeJS"],
         imageUrl: boxWave,
-        githubUrl: "https://github.com/yourusername/weather-dashboard",
-        liveUrl: "https://yourusername.github.io/weather-dashboard",
+        githubUrl: "https://github.com/APauquin/Cube_wave",
         category: "ThreeJS",
         date: "2025"
     },
@@ -90,13 +70,12 @@ const projects: Project[] = [
         title: "Organic Sphere",
         description: "ThreeJS sphere i created during my studies of ThreeJS following the lessons in a Bruno Simon course",
         longDescription:
-            "An animated sphere that showcases a sphere with a varying surface." +
+            "An animated sphere with a varying surface." +
             "The project demonstrates the use of shaders and lighting effects to create a realistic appearance. " +
             "The sphere is animated to have waves on the surface and change colors.",
         technologies: ["React", "ThreeJS"],
         imageUrl: organicSphere,
-        githubUrl: "https://github.com/yourusername/task-manager",
-        liveUrl: "https://task-manager-yourusername.web.app",
+        githubUrl: "https://github.com/APauquin/Wobbly_sphere",
         featured: true,
         category: "ThreeJS",
         date: "2025"
@@ -112,8 +91,7 @@ const projects: Project[] = [
             "The application was built to obtain my diploma after my studies.",
         technologies: ["React", "Node.js", "GraphQL", "TypeORM", "ApolloServer"],
         imageUrl: c02LessImage,
-        githubUrl: "https://github.com/yourusername/fitness-tracker",
-        liveUrl: "https://yourusername.github.io/fitness-tracker",
+        githubUrl: "https://github.com/WildCodeSchool/2311-wns-jaune-co2-less",
         category: "Web Development",
         date: "2024"
     },
@@ -133,8 +111,7 @@ const projects: Project[] = [
             "and MySQL with Doctrine ORM for database management.",
         technologies: ["PHP 8.1", "Symfony 6", "Bootstrap 5", "SASS", "JavaScript", "MySQL", "Doctrine ORM", "Twig"],
         imageUrl: originsDigitalImage,
-        githubUrl: "https://github.com/yourusername/origins-digital",
-        liveUrl: "https://yourusername.github.io/origins-digital",
+        githubUrl: "https://github.com/WildCodeSchool/2023-03-remote-fr-php-origins-digital",
         category: "Web Development",
         date: "2024"
     }

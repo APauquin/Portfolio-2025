@@ -1,13 +1,33 @@
+.floating-name-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+}
+
 .floating-name {
   position: absolute;
-  transform: translate(-50%, -50%);
+  transform: translate(-20%, -50%);
   font-weight: bold;
   color: var(--font-colour);
-  transition: font-size 1s ease-in-out, top 1s ease-in-out, left 1s ease-in-out;
   pointer-events: none;
   display: flex;
   flex-direction: column;
   text-align: center;
+  transition: all 2s ease-in-out;
+  z-index: 10000;
+}
+
+.main-section {
+  top: 50%;
+  left: 10%;
+  font-size: 80px;
+}
+
+.scrolled-section {
+  top: 40px;
+  left: 20%;
+  font-size: 24px;
 }
 
 .floating-name span {
@@ -26,12 +46,26 @@
   transition: background 0.1s ease-out;
 }
 
-.floating-name-container {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-}
-
-.floating-name {
-  transition: all 2s ease-in-out;
+@media (max-width: 768px) {
+  .main-section {
+    top: 15%;
+    left: 20%;
+    font-size: 2.2rem;
+    width: 100%;
+  }
+  
+  .scrolled-section {
+    top: 4%;
+    left: -1%;
+    font-size: 1.5rem;
+    width: 100%;
+  }
+  
+  .floating-name span {
+    background: linear-gradient(45deg, var(--secondary, #006D77), var(--tertiary, #83C5BE));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    transition: none; 
+  }
 }

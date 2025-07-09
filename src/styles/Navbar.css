@@ -7,22 +7,29 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
+  background-color: transparent; /* Always transparent on desktop */
+  box-shadow: none; /* No shadow on desktop */
+  border-radius: 0 0 16px 16px; /* Always keep rounded edges */
+  padding: 20px 0;
 }
 
 .navbar ul {
   display: flex;
   gap: 50px;
   list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .navbar button {
   background: none;
   border: none;
-  font-size: 18px;
+  font-size: 1.2rem;
   cursor: pointer;
   color: var(--font-colour);
   transition: color 0.3s ease;
+  padding: 0.5rem;
+  font-weight: bold;
 }
 
 .navbar button:hover {
@@ -56,4 +63,183 @@
   background-color: var(--tertiary);
   border-color: var(--tertiary);
   color: var(--main);
+}
+
+/* Burger Menu Styles */
+.burger-menu {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 21px;
+  position: absolute;
+  right: 15%;
+  top: 25px;
+  cursor: pointer;
+  z-index: 10001;
+}
+
+.burger-bar {
+  width: 100%;
+  height: 3px;
+  background-color: var(--font-colour);
+  border-radius: 3px;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Burger menu animation when open */
+.burger-bar.open:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+
+.burger-bar.open:nth-child(2) {
+  opacity: 0;
+}
+
+.burger-bar.open:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
+/* Mobile styles for language switcher inside menu */
+.mobile-language-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.language-label {
+  margin-bottom: 10px;
+  color: var(--font-colour);
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.language-switcher.mobile {
+  position: relative;
+  right: auto;
+}
+
+/* Mobile Styles with Staggered Animation */
+@media screen and (max-width: 768px) {
+  .burger-menu {
+    display: flex;
+  }
+  
+  .navbar {
+    justify-content: flex-start;
+    height: 8%;
+    padding: 0 0;
+    /* Add transition only for mobile devices */
+    transition: background-color 2s ease, box-shadow 2s ease;
+  }
+  
+  /* Only apply background on mobile */
+  .navbar.with-background {
+    background-color: var(--main);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .nav-links {
+    position: fixed;
+    top: -100vh; /* Start off-screen from the top */
+    left: 0; /* Fix position horizontally */
+    width: 100%;
+    height: 100vh;
+    background-color: transparent; /* Reset background */
+    transition: top 0.5s ease-in-out; /* Animate the top property */
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Add a pseudo-element for the semi-transparent background */
+  .nav-links::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--main);
+    opacity: 1;
+    z-index: -1;
+    backdrop-filter: blur(5px);
+  }
+  
+  .nav-links.open {
+    top: 0; /* Move to visible position */
+  }
+  
+  /* Menu Items Animation */
+  .navbar ul {
+    flex-direction: column;
+    gap: 25px;
+    align-items: center;
+    width: 100%;
+    padding: 0 20px;
+  }
+  
+  .navbar ul li {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition-delay: 0s; /* Initial delay will be overridden */
+  }
+  
+  /* Apply staggered delays to each menu item when open */
+  .nav-links.open li:nth-child(1) {
+    transition-delay: 0.5s; /* Delay after background appears */
+  }
+  
+  .nav-links.open li:nth-child(2) {
+    transition-delay: 0.6s;
+  }
+  
+  .nav-links.open li:nth-child(3) {
+    transition-delay: 0.7s;
+  }
+  
+  .nav-links.open li:nth-child(4) {
+    transition-delay: 0.8s;
+  }
+  
+  .nav-links.open li:nth-child(5) {
+    transition-delay: 0.9s; /* Language selector, if it's the 5th child */
+  }
+
+  .nav-links.open li:nth-child(6) {
+    transition-delay: 1s; /* Last item */
+  }
+  
+  /* Show menu items when open */
+  .nav-links.open li {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .navbar button {
+    font-size: 1.5rem;
+    padding: 10px;
+  }
+  
+  /* Hide desktop language switcher on mobile */
+  .language-switcher:not(.mobile) {
+    display: none;
+  }
+  
+  /* Mobile language container special animation */
+  .mobile-language-container {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .nav-links.open .mobile-language-container {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
