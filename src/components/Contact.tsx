@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import ReCAPTCHA from "react-google-recaptcha";
 import "../styles/Contact.css";
 
-// Fixed Modal component with proper TypeScript types
 interface MessageModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -11,7 +10,6 @@ interface MessageModalProps {
   isSuccess: boolean;
 }
 
-// Modal component for displaying messages
 const MessageModal: React.FC<MessageModalProps> = ({ isOpen, onClose, message, isSuccess }) => {
   if (!isOpen) return null;
 
@@ -39,7 +37,6 @@ const Contact: React.FC = () => {
   const { t } = useTranslation();
   const [formData, setFormData] = useState({
     contactName: "",
-    companyName: "",
     email: "",
     phoneNumber: "",
     message: "",
@@ -55,34 +52,12 @@ const Contact: React.FC = () => {
   const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   useEffect(() => {
-    // Check if the environment variable is properly loaded
-    console.log("RECAPTCHA SITE KEY:", import.meta.env.VITE_RECAPTCHA_SITE_KEY);
-
-    // Check if it's empty or undefined
     if (!import.meta.env.VITE_RECAPTCHA_SITE_KEY) {
       console.error("reCAPTCHA site key is missing. Please check your .env file.");
       setCaptchaError("Site key is missing. Contact the administrator.");
     }
   }, []);
 
-  const RECAPTCHA_TEST_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
-
-  // Logic to determine which key to use
-  const isDevelopment = import.meta.env.DEV === true;
-  const recaptchaSiteKey = isDevelopment
-    ? RECAPTCHA_TEST_KEY
-    : import.meta.env.VITE_RECAPTCHA_SITE_KEY;
-
-  useEffect(() => {
-    console.log("Environment:", isDevelopment ? "Development" : "Production");
-
-    if (!recaptchaSiteKey) {
-      console.error("No reCAPTCHA site key available, even for development");
-      setCaptchaError("Site key is missing. Contact the administrator.");
-    }
-  }, [recaptchaSiteKey]);
-
-  // Enhanced captcha handling for development
   const handleCaptchaChange = (token: string | null) => {
     console.log("reCAPTCHA callback triggered:", token ? "Token received" : "No token");
     setCaptchaToken(token);
@@ -92,7 +67,6 @@ const Contact: React.FC = () => {
     }
   };
 
-  // Pre-made message options - Fixed typo in second preset
   const presetMessages = [
     t('contact.preset1', "I would like to schedule a call."),
     t('contact.preset2', "Please contact me via email."),
@@ -148,69 +122,66 @@ const Contact: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-  
+
     if (!validate()) return;
-  
+
     setIsSubmitting(true);
-  
+
     try {
       // Get API URL from environment variable or use fallback
       const apiUrl = import.meta.env.VITE_BACKEND_URL
         ? `${import.meta.env.VITE_BACKEND_URL}/api/send-email`
         : 'http://localhost:3001/api/send-email';
-      
+
       console.log('Submitting form to API:', apiUrl);
       console.log('Form data being sent:', {
         contactName: formData.contactName,
-        companyName: formData.companyName,
         email: formData.email,
         phoneNumber: formData.phoneNumber,
         message: formData.message,
         captchaToken: captchaToken ? 'Token exists' : 'No token'
       });
-  
+
       // Send the form data to the backend
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           contactName: formData.contactName,
-          companyName: formData.companyName,
           email: formData.email,
           phoneNumber: formData.phoneNumber,
           message: formData.message,
           captchaToken: captchaToken
         })
       });
-      
+
       console.log('Response status:', response.status);
-      
+
       // Parse the response
       const data = await response.json();
       console.log('Response data:', data);
-      
+
       if (!response.ok) {
         throw new Error(data.message || 'Failed to send message');
       }
-  
+
       // Success
       showModal(t('contact.successMessage', "Your message has been sent! I'll get back to you soon."), true);
-  
+
       // Reset form
       setFormData({
         contactName: "",
-        companyName: "",
         email: "",
         phoneNumber: "",
         message: "",
       });
       setCaptchaToken(null);
-  
+
       // Reset the reCAPTCHA
       if (recaptchaRef.current) {
         recaptchaRef.current.reset();
       }
-  
+
     } catch (error) {
       console.error('Error submitting form:', error);
       showModal(
@@ -223,7 +194,7 @@ const Contact: React.FC = () => {
       setIsSubmitting(false);
     }
   };
-  
+
   return (
     <div className="contact-container">
       <h1 className="page-title">{t('contact.title', 'Contact')}</h1>
@@ -250,20 +221,6 @@ const Contact: React.FC = () => {
                 onChange={handleInputChange}
                 required
                 placeholder={t('contact.namePlaceholder', 'Enter your full name')}
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="companyName">
-                {t('contact.companyLabel', 'Company Name')}
-              </label>
-              <input
-                type="text"
-                id="companyName"
-                name="companyName"
-                value={formData.companyName}
-                onChange={handleInputChange}
-                placeholder={t('contact.companyPlaceholder', 'Enter your company name')}
               />
             </div>
 
@@ -340,19 +297,24 @@ const Contact: React.FC = () => {
             <label>
               {t('contact.captchaLabel', 'Human Verification')} <span className="required">*</span>
             </label>
-            {captchaError && (
-              <div className="captcha-error">{captchaError}</div>
+            {import.meta.env.VITE_RECAPTCHA_SITE_KEY ? (
+              <ReCAPTCHA
+                ref={recaptchaRef}
+                sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+                onChange={handleCaptchaChange}
+                onExpired={() => setCaptchaToken(null)}
+                onErrored={() => {
+                  console.error("reCAPTCHA error occurred. Possible causes:");
+                  console.error("1. Invalid site key");
+                  console.error("2. Domain not registered for this site key");
+                  console.error("3. Network connectivity issues");
+                  console.error("4. Site key:", import.meta.env.VITE_RECAPTCHA_SITE_KEY);
+                  setCaptchaError("reCAPTCHA failed to load. Please check your internet connection and try again.");
+                }}
+              />
+            ) : (
+              <div>reCAPTCHA unavailable</div>
             )}
-            <ReCAPTCHA
-              ref={recaptchaRef}
-              sitekey={recaptchaSiteKey}
-              onChange={handleCaptchaChange}
-              onExpired={() => setCaptchaToken(null)}
-              onErrored={() => {
-                console.error("reCAPTCHA error occurred");
-                setCaptchaError("An error occurred with the CAPTCHA. Please try again.");
-              }}
-            />
           </div>
         </div>
 

@@ -10,7 +10,8 @@ const enTranslations = {
     "about": "About",
     "timeLine": "TimeLine",
     "projects": "Projects",
-    "contact": "Contact"
+    "contact": "Contact",
+    "timeline": "Timeline"
   },
   intro: {
     title: 'Full-Stack Developer'
@@ -173,7 +174,8 @@ const frTranslations = {
     "about": "À propos",
     "timeLine": "Chronologie",
     "projects": "Projets",
-    "contact": "Contact"
+    "contact": "Contact",
+    "timeline": "Chronologie"
   },
   intro: {
     title: 'Développeur Full-Stack'
