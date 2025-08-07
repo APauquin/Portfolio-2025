@@ -304,12 +304,7 @@ const Contact: React.FC = () => {
                 onChange={handleCaptchaChange}
                 onExpired={() => setCaptchaToken(null)}
                 onErrored={() => {
-                  console.error("reCAPTCHA error occurred. Possible causes:");
-                  console.error("1. Invalid site key");
-                  console.error("2. Domain not registered for this site key");
-                  console.error("3. Network connectivity issues");
-                  console.error("4. Site key:", import.meta.env.VITE_RECAPTCHA_SITE_KEY);
-                  setCaptchaError("reCAPTCHA failed to load. Please check your internet connection and try again.");
+                  console.error("reCAPTCHA error occurred.");
                 }}
               />
             ) : (

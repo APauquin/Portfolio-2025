@@ -54,10 +54,6 @@ export const testRecaptchaConfig = (): boolean => {
     return false;
   }
 
-  console.log('reCAPTCHA configuration:');
-  console.log('- Secret key is set:', !!secretKey);
-  console.log('- reCAPTCHA verification is enabled');
-
   return true;
 };
 
