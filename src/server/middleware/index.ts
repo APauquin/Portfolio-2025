@@ -40,25 +40,26 @@ export const contactFormLimiter = rateLimit({
 export const setupSecurityMiddleware = (app: Express): void => {
   // Apply Helmet for security headers
   app.use(helmet());
-  
+
   // Enable CORS
   app.use(cors());
-  
+
   // Add content-type validation
-  app.use((req: Request, res: Response, next: NextFunction) => {
+  app.use((req: Request, res: Response, next: NextFunction): void => {
     // Only check content-type for POST, PUT, PATCH requests with content
     if (['POST', 'PUT', 'PATCH'].includes(req.method) && req.headers['content-length'] !== '0') {
       const contentType = req.headers['content-type'];
-      
+
       // Ensure JSON content-type for API endpoints
       if (req.path.startsWith('/api/') && (!contentType || !contentType.includes('application/json'))) {
-        return res.status(415).json({
+        res.status(415).json({
           success: false,
           message: 'Content-Type must be application/json for API requests'
         });
+        return;
       }
     }
-    
+
     next();
   });
 };
@@ -66,11 +67,11 @@ export const setupSecurityMiddleware = (app: Express): void => {
 /**
  * Error handler middleware
  */
-export const errorHandler = (err: Error, _req: Request, res: Response, _next: NextFunction) => {
+export const errorHandler = (err: Error, _req: Request, res: Response, _next: NextFunction): void => {
   console.error('Server error:', err);
-  
+
   // Default to 500 internal server error
-  return res.status(500).json({
+  res.status(500).json({
     success: false,
     message: 'Internal server error'
   });
@@ -83,13 +84,10 @@ export const errorHandler = (err: Error, _req: Request, res: Response, _next: Ne
 export const setupMiddleware = (app: Express): void => {
   // Apply security middleware
   setupSecurityMiddleware(app);
-  
+
   // Parse JSON body
   app.use(express.json());
-  
+
   // Apply general rate limiting
   app.use(limiter);
-  
-  // Apply error handler middleware (should be applied last)
-  app.use(errorHandler);
 };
